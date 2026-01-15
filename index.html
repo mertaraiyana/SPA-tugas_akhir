@@ -4,24 +4,27 @@
     <meta charset="UTF-8">
     <title>TaskMahasiswa - SPA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<!-- ================= HEADER ================= -->
-<header class="header">
-    <h1>TaskMahasiswa</h1>
-    <div class="user-info">
-        <span>Hai, Mahasiswa</span>
+<div class="header">
+    <div class="header-left">
+        <h1>
+            TaskMahasiswa
+        </h1>
     </div>
-</header>
+    <div class="header-right">
+        <img src="user.png" alt="">
+        <span class="nama-user">
+            Hi, Nama Mahasiswa
+        </span>
+        <a class="logout" href="#">
+            Log Out
+        </a>
+    </div>
+</div>
 
-<!-- ================= APP WRAPPER ================= -->
 <div class="app-container">
-
-    <!-- ========== SIDEBAR ========== -->
     <aside class="sidebar">
         <nav>
             <ul>
@@ -33,49 +36,37 @@
             </ul>
         </nav>
     </aside>
-
-    <!-- ========== MAIN CONTENT (SPA TARGET) ========== -->
     <main id="app" class="main-content">
         <div class="card">
             <h3>Loading...</h3>
             <p>Memuat aplikasi TaskMahasiswa</p>
         </div>
     </main>
-
 </div>
 
-<!-- ================= FOOTER ================= -->
-<footer class="footer">
+<div class="footer">
     <p>© 2026 TaskMahasiswa</p>
-</footer>
+</div>
 
-<!-- ================= MODAL ROOT ================= -->
 <div id="modal-root"></div>
 
-<!-- ================= JAVASCRIPT ================= -->
 <script src="app.js"></script>
 
 <script>
-/* ================= KONEKSI INDEX ↔ APP.JS ================= */
 document.addEventListener("DOMContentLoaded", function () {
 
-    // pastikan fungsi dari app.js ADA
     if (typeof renderHome !== "function") {
         alert("app.js tidak ter-load. Periksa nama file atau lokasi.");
         return;
     }
-
-    // hubungkan menu ke fungsi JS
     document.getElementById("nav-home").onclick = renderHome;
     document.getElementById("nav-dashboard").onclick = renderDashboard;
     document.getElementById("nav-tasks").onclick = renderTasks;
     document.getElementById("nav-calendar").onclick = renderCalendar;
     document.getElementById("nav-profile").onclick = renderProfile;
 
-    // tampilkan halaman awal
     renderHome();
 });
 </script>
-
 </body>
 </html>
