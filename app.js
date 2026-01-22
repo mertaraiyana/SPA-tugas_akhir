@@ -41,13 +41,21 @@ function Button(label, onclick, type = "primary") {
   return `<button class="btn ${type}" onclick="${onclick}">${label}</button>`;
 }
 
-// Table Tugas
-function TaskTable(data) {
-  if (data.length === 0) {
-    return "<p>Tidak ada tugas.</p>";
+// Table Tugas dengan filter
+function TaskTable(data, filterText = '', filterStatus = 'semua') {
+  // Filter berdasarkan teks pencarian dan status
+  let filtered = data.filter(t => {
+    const matchText = t.judul.toLowerCase().includes(filterText.toLowerCase()) || 
+                      t.catatan.toLowerCase().includes(filterText.toLowerCase());
+    const matchStatus = filterStatus === 'semua' || t.status === filterStatus;
+    return matchText && matchStatus;
+  });
+
+  if (filtered.length === 0) {
+    return "<p>Tidak ada tugas yang sesuai dengan pencarian.</p>";
   }
 
-  const rows = data.map(t => {
+  const rows = filtered.map(t => {
     const statusColor = t.status === 'Selesai' ? '#90EE90' : (t.status === 'Sedang Dikerjakan' ? '#FFD700' : '#FFB6C1');
     const statusBgColor = t.status === 'Selesai' ? 'background-color: #e8f5e9' : (t.status === 'Sedang Dikerjakan' ? 'background-color: #fff8e1' : 'background-color: #ffe0e6');
     
@@ -256,9 +264,39 @@ function renderTasksForm() {
 }
 
 // Manajemen Tugas - List
+let currentFilterText = '';
+let currentFilterStatus = 'semua';
+
 function renderTasksList() {
+  const filterSection = `
+    <div style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+      <input 
+        type="text" 
+        id="search-input" 
+        placeholder="Cari tugas berdasarkan judul atau catatan..." 
+        style="flex: 1; min-width: 250px; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;"
+        onkeyup="filterTasks(this.value, document.getElementById('status-filter').value)"
+      />
+      <select 
+        id="status-filter" 
+        style="padding: 10px 15px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; background-color: white; cursor: pointer;"
+        onchange="filterTasks(document.getElementById('search-input').value, this.value)"
+      >
+        <option value="semua">Semua Status</option>
+        <option value="Belum">Belum Dikerjakan</option>
+        <option value="Sedang Dikerjakan">Sedang Dikerjakan</option>
+        <option value="Selesai">Selesai</option>
+      </select>
+      <button 
+        class="btn primary" 
+        onclick="resetFilter()" 
+        style="padding: 10px 20px;"
+      >Reset</button>
+    </div>
+  `;
+  
   render(
-    Card("Daftar Tugas", TaskTable(tasks))
+    Card("Daftar Tugas", filterSection + TaskTable(tasks, currentFilterText, currentFilterStatus))
   );
 }
 
@@ -446,6 +484,27 @@ function changeTaskStatus(id, status) {
   
   console.log("Mengubah status tugas:", id, "menjadi:", status);
   task.status = status;
+  renderTasksList();
+}
+
+// Filter tugas berdasarkan pencarian dan status
+function filterTasks(searchText, status) {
+  currentFilterText = searchText;
+  currentFilterStatus = status;
+  
+  // Update nilai input agar tetap konsisten
+  const searchInput = document.getElementById('search-input');
+  const statusFilter = document.getElementById('status-filter');
+  if (searchInput) searchInput.value = searchText;
+  if (statusFilter) statusFilter.value = status;
+  
+  renderTasksList();
+}
+
+// Reset filter
+function resetFilter() {
+  currentFilterText = '';
+  currentFilterStatus = 'semua';
   renderTasksList();
 }
 

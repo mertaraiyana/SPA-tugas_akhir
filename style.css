@@ -1107,3 +1107,29 @@ form button[type="submit"] {
         height: 50px;
     }
 }
+
+/* Filter Pencarian Tugas */
+#search-input {
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+#search-input:focus {
+    outline: none;
+    border-color: #667eea !important;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+#status-filter {
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+#status-filter:focus {
+    outline: none;
+    border-color: #667eea !important;
+}
+
+#status-filter:hover {
+    border-color: #667eea;
+}
