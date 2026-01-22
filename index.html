@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <title>TaskMahasiswa - SPA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -30,7 +33,13 @@
             <ul>
                 <li><a href="#" id="nav-home">Home</a></li>
                 <li><a href="#" id="nav-dashboard">Dashboard</a></li>
-                <li><a href="#" id="nav-tasks">Manajemen Tugas</a></li>
+                <li>
+                    <a href="#" id="nav-tasks" class="menu-parent">Manajemen Tugas</a>
+                    <ul class="submenu" id="submenu-tasks">
+                        <li><a href="#" id="nav-tasks-add">Tambah Tugas</a></li>
+                        <li><a href="#" id="nav-tasks-list">Daftar Tugas</a></li>
+                    </ul>
+                </li>
                 <li><a href="#" id="nav-calendar">Kalender</a></li>
                 <li><a href="#" id="nav-profile">Profil</a></li>
             </ul>
@@ -50,7 +59,7 @@
 
 <div id="modal-root"></div>
 
-<script src="app.js"></script>
+<script src="app.js?v=2026-01-22"></script>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -59,11 +68,13 @@ document.addEventListener("DOMContentLoaded", function () {
         alert("app.js tidak ter-load. Periksa nama file atau lokasi.");
         return;
     }
-    document.getElementById("nav-home").onclick = renderHome;
-    document.getElementById("nav-dashboard").onclick = renderDashboard;
-    document.getElementById("nav-tasks").onclick = renderTasks;
-    document.getElementById("nav-calendar").onclick = renderCalendar;
-    document.getElementById("nav-profile").onclick = renderProfile;
+    document.getElementById("nav-home").onclick = function(e) { e.preventDefault(); renderHome(); };
+    document.getElementById("nav-dashboard").onclick = function(e) { e.preventDefault(); renderDashboard(); };
+    document.getElementById("nav-tasks").onclick = function(e) { e.preventDefault(); toggleSubmenu(); };
+    document.getElementById("nav-tasks-add").onclick = function(e) { e.preventDefault(); renderTasksForm(); };
+    document.getElementById("nav-tasks-list").onclick = function(e) { e.preventDefault(); renderTasksList(); };
+    document.getElementById("nav-calendar").onclick = function(e) { e.preventDefault(); renderCalendar(); };
+    document.getElementById("nav-profile").onclick = function(e) { e.preventDefault(); renderProfile(); };
 
     renderHome();
 });
