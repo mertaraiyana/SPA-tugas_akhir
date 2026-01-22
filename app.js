@@ -483,6 +483,9 @@ function saveProfile(event) {
   userProfile.email = form.email.value;
   userProfile.status = form.status.value;
   
+  // Sinkronisasi nama di header
+  document.querySelector(".nama-user").textContent = `Hi, ${userProfile.nama}`;
+  
   closeModal();
   renderProfile();
 }
@@ -522,6 +525,12 @@ function nextMonth() {
 /*************************************************
  * INIT APP
  *************************************************/
+function initApp() {
+  // Sinkronisasi nama di header dengan profil
+  document.querySelector(".nama-user").textContent = `Hi, ${userProfile.nama}`;
+}
+
 window.onload = () => {
+  initApp();
   renderHome();
 };
